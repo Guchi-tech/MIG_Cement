@@ -70,3 +70,14 @@ reorder_data['date'] = reorder_data['date'].dt.strftime('%Y-%m-%d')
 
 st.subheader("Upcoming Reorder Recommendations")
 st.dataframe(reorder_data, use_container_width=True)
+# Download Reorder Table
+@st.cache_data
+def convert_to_excel(df):
+    return df.to_csv(index=False).encode('utf-8')
+
+st.download_button(
+    label="📥 Download Reorder Schedule (CSV)",
+    data=convert_to_excel(reorder_data),
+    file_name=f"reorder_schedule_{site_id}.csv",
+    mime="text/csv"
+)
